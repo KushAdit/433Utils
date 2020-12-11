@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
      // This pin is not the first pin on the RPi GPIO header!
      // Consult https://projects.drogon.net/raspberry-pi/wiringpi/pins/
      // for more information.
-     int PIN = 2;
+     int PIN = 0;                   //pin1 on OPI Zero 
      
      if(wiringPiSetup() == -1) {
        printf("wiringPiSetup failed, exiting...");
