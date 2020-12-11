@@ -55,15 +55,14 @@ int main(int argc, char *argv[]) {
 
 
     char* host = MQTT_HOSTNAME;
-    int port   = 1883;
+    int port   = 1883, waitClocks=127000;
     char* usr  = MQTT_USERTNAME;
     char* pswd = MQTT_PASSWORD;
     char* topic= MQTT_TOPIC;
-
    /* parse input parameter */
    int opt;
    opterr = 0;
-    while ((opt = getopt(argc, argv, "g:h:p:u:x:t:n")) != -1) {
+    while ((opt = getopt(argc, argv, "g:h:p:u:x:t:c:n")) != -1) {
             switch (opt) {
             case 'h':
                  host = optarg;
@@ -83,19 +82,22 @@ int main(int argc, char *argv[]) {
             case 'g':
                 pin = atoi(optarg);
                 break;
+            case 'c':
+                waitClocks = atoi(optarg);
+                break;
             case 'w':
                 pulseLength = atoi(optarg);
                 break;
             case 'n':
-                fprintf (stdout,"Usage: %s [-h Host] [-p Port] [-u username] [-x password] [-t topic] [-g WiringPI GPIO] [-w pulsewith]\n",
+                fprintf (stdout,"Usage: %s [-h Host] [-p Port] [-u username] [-x password] [-t topic] [-g WiringPI GPIO] [-c Wait Clocks] [-w pulsewith]\n",
                         argv[0]);
                 exit(0);
                 break;
             }
         }
 
-     fprintf (stdout,"Running with -h %s -p %i -u %s -x %s -t %s -g %i -w %i\n",
-                     host, port, usr ,pswd , topic, pin , pulseLength );
+     fprintf (stdout,"Running with -h %s -p %i -u %s -x %s -t %s -g %i -c %i -w %i\n",
+                     host, port, usr ,pswd , topic, pin , waitClocks , pulseLength );
 
 
     struct mosquitto *mosq = NULL;
@@ -148,7 +150,7 @@ char cv1='0',cv2='0',cv3='0';
     {
 if(cv1=='1'){
 clock_t now = clock();
-if((now-btv1)>=250000){
+if((now-btv1)>=waitClocks){
 v1=0;
 btv1=0;
 cv1='0';
@@ -156,7 +158,7 @@ cv1='0';
 }
 if(cv2=='1'){
 clock_t now = clock();
-if((now-btv2)>=250000){ 
+if((now-btv2)>=waitClocks){ 
 v2=0;
 btv2=0;
 cv2='0';
@@ -164,7 +166,7 @@ cv2='0';
 }
 if(cv3=='1'){
 clock_t now = clock();
-if((now-btv3)>=250000){ 
+if((now-btv3)>=waitClocks){ 
 v3=0;
 btv3=0;
 cv3='0';
