@@ -1,3 +1,41 @@
+
+
+
+
+sudo nano /lib/systemd/system/RFmqtt.service
+
+
+[Unit]
+Description=433MHz Receiver on RPI GPIO sending to MQTT Broker
+After=network.target multi-user.target
+
+[Service]
+Type=simple
+User=root
+Restart=always
+RestartSec=30
+ExecStart=/home/dietpi/WiringOP/433Utils/RPi_utils/RFmqtt -c 145000
+
+[Install]
+WantedBy=multi-user.target
+
+Make exec using
+sudo chmod 644 /lib/systemd/system/RFmqtt.service
+
+sudo systemctl daemon-reload
+sudo systemctl enable RFmqtt.service
+sudo systemctl start RFmqtt.service
+
+
+
+
+
+
+
+
+
+
+
 # About
 
 rcswitch-pi is for controlling rc remote controlled power sockets 
