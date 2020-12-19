@@ -117,7 +117,7 @@ int main(int argc, char *argv[]) {
     mosquitto_username_pw_set (mosq, usr, pswd);
 
     // Establish a connection to the MQTT server. Do not use a keep-alive ping
-    int ret = mosquitto_connect (mosq, host, port, 1000);
+    int ret = mosquitto_connect (mosq, host, port, 0);
     if (ret)
     {
       fprintf (stderr, "Can't connect to Mosquitto server\n");
@@ -202,7 +202,8 @@ cv3='1';
         }
         
         /* Include for debugging */
-        /*
+        
+
         if (value == 0)
         {
           fprintf (stderr,"Unknown encoding\n");
@@ -210,7 +211,8 @@ cv3='1';
         {
           if (ret)
           {
-            fprintf (stderr,"Can't publish to Mosquitto server\n");
+            fprintf(stderr, "%s",mosquitto_strerror(ret));
+            fprintf (stderr,"   Can't publish to Mosquitto server\n");
             exit (-1);
           }else
           {
@@ -219,7 +221,8 @@ cv3='1';
           
         }
         fflush(stdout);
-        */
+        
+
       }
       else
       {
@@ -235,3 +238,4 @@ cv3='1';
 
   exit(0);
 }
+
