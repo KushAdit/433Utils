@@ -26,7 +26,8 @@ sudo systemctl daemon-reload
 sudo systemctl enable RFmqtt.service
 sudo systemctl start RFmqtt.service
 
-
+Check log of service
+journalctl -u RFmqtt
 
 
 
